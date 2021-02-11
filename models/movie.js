@@ -6,36 +6,31 @@ const movieSchema = new mongoose.Schema({
   country: {
     type: String,
     minlength: 2,
-    maxlength: 30,
     required: true,
   },
   director: {
     type: String,
     minlength: 2,
-    maxlength: 30,
     required: true,
   },
   duration: {
     type: Number,
     required: true,
-    default: 0,
   },
   year: {
     type: Number,
     required: true,
-    default: 2021,
   },
   description: {
     type: String,
     minlength: 2,
-    maxlength: 30,
     required: true,
   },
   image: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => validator.isUrl(v),
+      validator: (v) => validator.isURL(v),
       message: 'Ошибка в ссылке',
     },
   },
@@ -43,7 +38,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => validator.isUrl(v),
+      validator: (v) => validator.isURL(v),
       message: 'Ошибка в ссылке',
     },
   },
@@ -51,7 +46,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => validator.isUrl(v),
+      validator: (v) => validator.isURL(v),
       message: 'Ошибка в ссылке',
     },
   },
@@ -60,10 +55,18 @@ const movieSchema = new mongoose.Schema({
     required: true,
     ref: 'user',
   },
+  movieId: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (v) => validator.isHexadecimal(v),
+      message: 'ошибка id',
+    },
+    length: 24,
+  },
   nameRU: {
     type: String,
     minlength: 2,
-    maxlength: 30,
     validate: {
       validator: (v) => regRu.test(v),
       message: 'Ошибка в название фильма',
@@ -73,7 +76,6 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     minlength: 2,
-    maxlength: 30,
     validate: {
       validator: (v) => regEn.test(v),
       message: 'Ошибка в название фильма',

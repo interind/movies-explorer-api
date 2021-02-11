@@ -26,6 +26,15 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     select: false,
   },
+  userId: {
+    type: String,
+    required: [true, 'обязательное поле'],
+    validate: {
+      validator: (v) => validator.isHexadecimal(v),
+      message: 'ошибка id',
+    },
+    length: 24,
+  },
 });
 
 userSchema.statics.findUserByCredentials = async function (email, password, next) {

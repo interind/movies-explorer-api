@@ -17,19 +17,20 @@ router.get('/movies', getMovies);
 router.post('/movies',
   celebrate({
     body: Joi.object().keys({
-      nameRU: Joi.string().min(2).max(30).regex(regRu)
+      nameRU: Joi.string().min(2).regex(regRu)
         .required(),
-      nameEN: Joi.string().min(2).max(30).regex(regEn)
+      nameEN: Joi.string().min(2).regex(regEn)
         .required(),
-      country: Joi.string().min(2).max(30).regex(regProfile)
+      country: Joi.string().min(2).regex(regProfile)
         .required(),
-      director: Joi.string().min(2).max(30).regex(regProfile)
+      director: Joi.string().min(2).regex(regProfile)
         .required(),
-      duration: Joi.number().min(2).max(30).required(),
-      year: Joi.string().min(2).max(30).regex(regProfile)
+      duration: Joi.number().required(),
+      year: Joi.string().length(4).regex(regProfile)
         .required(),
-      description: Joi.string().min(2).max(30).regex(regProfile)
+      description: Joi.string().min(2).regex(regProfile)
         .required(),
+      movieId: Joi.string().length(24).hex().required(),
       image: Joi.string().regex(regHttp).required(),
       trailer: Joi.string().regex(regHttp).required(),
       thumbnail: Joi.string().regex(regHttp).required(),

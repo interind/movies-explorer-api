@@ -2,21 +2,40 @@ const createError = require('http-errors');
 const Movie = require('../models/movie');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
+    .populate('owner')
     .then((movies) => res.send(movies.reverse()))
     .catch(next);
 };
 
 module.exports.createMovie = (req, res, next) => {
   const owner = req.user._id;
-
   const {
-    name, link,
+    nameEN,
+    nameRU,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    movieId,
+    trailer,
+    image,
+    thumbnail,
   } = req.body;
 
   Movie.create({
-    name,
-    link,
+    nameEN,
+    nameRU,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    movieId,
+    trailer,
+    image,
+    thumbnail,
     owner,
   })
     .then((movie) => res.send(movie))
