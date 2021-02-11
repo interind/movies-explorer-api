@@ -44,14 +44,12 @@ module.exports.createUser = (req, res, next) => {
     name,
     email,
     password,
-    userId,
   } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => User.create({
     name,
     email,
     password: hash,
-    userId,
   }))
     .then(({ _id }) => {
       User.findById(_id)

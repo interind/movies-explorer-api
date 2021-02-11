@@ -15,7 +15,6 @@ router.post(
         .required(),
       email: Joi.string().required().email(),
       password: Joi.string().required().min(6),
-      userId: Joi.string().length(24).hex().required(),
     }),
   }),
   createUser,
