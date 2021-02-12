@@ -30,7 +30,7 @@ router.post('/movies',
         .required(),
       description: Joi.string().min(2).regex(regProfile)
         .required(),
-      movieId: Joi.string().length(24).hex().required(),
+      movieId: Joi.number().min(1).required(),
       image: Joi.string().regex(regHttp).required(),
       trailer: Joi.string().regex(regHttp).required(),
       thumbnail: Joi.string().regex(regHttp).required(),
@@ -39,7 +39,7 @@ router.post('/movies',
 router.delete('/movies/:movieId',
   celebrate({
     params: Joi.object().keys({
-      movieId: Joi.number().required(),
+      movieId: Joi.number().min(1).required(),
     }),
   }), deleteMovie);
 
