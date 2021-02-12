@@ -5,9 +5,9 @@ const routerMovies = require('./movies.js');
 const routerError = require('./error.js');
 const auth = require('../middlewares/auth.js');
 
-router.use('/api', routerAuth);
-router.use('/api', auth, routerUsers);
-router.use('/api', auth, routerMovies);
+router.use(routerAuth);
+router.use(auth, routerUsers);
+router.use(auth, routerMovies);
 router.use(routerError);
 
 module.exports = router;
