@@ -56,14 +56,9 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
   },
   movieId: {
-    type: String,
+    type: Number,
     unique: true,
     required: true,
-    validate: {
-      validator: (v) => validator.isHexadecimal(v),
-      message: 'ошибка id',
-    },
-    length: 24,
   },
   nameRU: {
     type: String,

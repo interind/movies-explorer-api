@@ -47,5 +47,29 @@ userSchema.statics.findUserByCredentials = async function (email, password, next
     return next(err);
   }
 };
+userSchema.statics.findUserByCheck = async function (req, _id, next) {
+  try {
+    let data = {};
+    const { name, email, password } = await this.findById(_id).select('+password');
+    if (!req.body.password) {
+      data.password = password;
+    } else {
+      data = { ...data, password: await bcrypt.hash(req.body.password, 10) };
+    }
+    if (!req.body.email) {
+      data.email = await email;
+    } else {
+      data.email = await req.body.email;
+    }
+    if (!req.body.name) {
+      data.name = await name;
+    } else {
+      data.name = await req.body.name;
+    }
+    return data;
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = mongoose.model('user', userSchema);

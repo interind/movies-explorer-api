@@ -50,8 +50,8 @@ module.exports.deleteMovie = (req, res, next) => {
       } if (movie.owner.toString() !== req.user._id) {
         return Promise.reject(createError.Forbidden('Ошибка прав доступа'));
       }
-      movie.remove();
-      return res.send({ message: 'карточка удалена' });
+      return movie.remove();
     })
+    .then(() => res.send({ message: 'карточка удалена' }))
     .catch(next);
 };

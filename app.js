@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const { requestLogger, errorLogger } = require('./middlewares/logger.js');
-const { errorsResponse } = require('./middlewares/errors.js');
-const router = require('./routes/index.js');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { errorsResponse } = require('./middlewares/errors');
+const router = require('./routes/index');
 
 const app = express();
 app.disable('x-powered-by');

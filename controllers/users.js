@@ -65,26 +65,21 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.updateUser = (req, res, next) => {
-  const { name, email, password } = req.body;
-  bcrypt.hash(password, 10).then((hash) => User.findByIdAndUpdate(
-    req.user._id, {
-      name,
-      email,
-      password: hash,
-    },
-  ),
-  {
-    new: true,
-    runValidators: true,
-  })
-    .then(({ _id }) => {
-      User.findById(_id)
-        .then((user) => {
-          if (!user) {
-            return next(createError.Forbidden('Ошибка доступа!❌'));
-          }
-          return res.status(config.get('create')).send(user);
-        })
+  const { _id } = req.user;
+  return User.findUserByCheck(req, _id, next)
+    .then((data) => {
+      User.findByIdAndUpdate(
+        req.user._id, {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+        {
+          new: true,
+          runValidators: true,
+        },
+      )
+        .then((user) => res.status(config.get('create')).send(user))
         .catch(next);
     })
     .catch(next);

@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const routerAuth = require('./auth.js');
-const routerUsers = require('./users.js');
-const routerMovies = require('./movies.js');
-const routerError = require('./error.js');
-const auth = require('../middlewares/auth.js');
+const routerAuth = require('./auth');
+const routerUsers = require('./users');
+const routerMovies = require('./movies');
+const routerError = require('./error');
+const auth = require('../middlewares/auth');
 
 router.use(routerAuth);
 router.use(auth, routerUsers);
