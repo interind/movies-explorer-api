@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization || !authorization.startsWith('Bearer ')) {
-    return next(createError.Unauthorized('Необходима авторизация'));
+    return next(createError.Unauthorized(config.get('messageUnauthorized')));
   }
 
   const token = authorization.replace('Bearer ', '');
@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : config.get('secretKey'));
   } catch (err) {
-    next(createError.Unauthorized(err.message));
+    next(createError.Unauthorized(config.get('messageUnauthorizedToken')));
   }
 
   req.user = payload;

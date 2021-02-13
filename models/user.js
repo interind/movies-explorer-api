@@ -3,26 +3,27 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const createError = require('http-errors');
 const validator = require('validator');
+const config = require('config');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   email: {
     type: String,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     unique: true,
     validate: {
       validator: (v) => validator.isEmail(v),
-      message: 'Некорректный email',
+      message: config.get('messageErrorEmail'),
     },
   },
   password: {
     type: String,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     minlength: 6,
     select: false,
   },
@@ -32,12 +33,12 @@ userSchema.statics.findUserByCredentials = async function (email, password, next
   try {
     const user = await this.findOne({ email }).select('+password');
     if (!user) {
-      return Promise.reject(createError.Unauthorized('Неправильные почта или пароль'));
+      return Promise.reject(createError.Unauthorized(config.get('messageErrorEmailPassword')));
     }
     try {
       const matched = await bcrypt.compare(password, user.password);
       if (!matched) {
-        return Promise.reject(createError.Unauthorized('Неправильные почта или пароль'));
+        return Promise.reject(createError.Unauthorized(config.get('messageErrorEmailPassword')));
       }
       return user;
     } catch (err) {
@@ -49,7 +50,7 @@ userSchema.statics.findUserByCredentials = async function (email, password, next
 };
 userSchema.statics.findUserByCheck = async function (req, _id, next) {
   if (!req.body.password && !req.body.email && !req.body.name) {
-    return Promise.reject(createError.NotFound('Нет данных для обновления'));
+    return Promise.reject(createError.NotFound(config.get('messageNotUpdate')));
   }
   try {
     let data = {};

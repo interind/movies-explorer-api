@@ -22,17 +22,11 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((users) => res.send({ data: users }))
-    .catch(next);
-};
-
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
-        return Promise.reject(createError.NotFound('Такого пользователя нет!❌'));
+        return Promise.reject(createError.NotFound(config.get('messageNotFound')));
       }
       return res.send(user);
     })
@@ -55,7 +49,7 @@ module.exports.createUser = (req, res, next) => {
       User.findById(_id)
         .then((user) => {
           if (!user) {
-            return next(createError.Unauthorized('Ошибка регистрации!❌'));
+            return next(createError.Unauthorized(config.get('messageUnregistered')));
           }
           return res.status(config.get('create')).send(user);
         })
@@ -63,7 +57,7 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === config.get('conflictCode')) {
-        return next(createError.Conflict('Такой email уже используется ❌'));
+        return next(createError.Conflict(config.get('messageConflictEmail')));
       }
       return next(err);
     });

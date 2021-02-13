@@ -3,11 +3,9 @@ const { celebrate, Joi } = require('celebrate');
 const { regProfile } = require('../utils/reg.ext');
 const {
   getUser,
-  getUsers,
   updateUser,
 } = require('../controllers/users.js');
 
-router.get('/users', getUsers);
 router.get('/users/me', getUser);
 router.patch('/users/me',
   celebrate({

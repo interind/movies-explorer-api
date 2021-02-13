@@ -1,83 +1,97 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const config = require('config');
+const createError = require('http-errors');
 const { regRu, regEn } = require('../utils/reg.ext.js');
 
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
     minlength: 2,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   director: {
     type: String,
     minlength: 2,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   duration: {
     type: Number,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   year: {
     type: Number,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   description: {
     type: String,
     minlength: 2,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   image: {
     type: String,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Ошибка в ссылке',
+      message: config.get('messageErrorUrl'),
     },
   },
   trailer: {
     type: String,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Ошибка в ссылке',
+      message: config.get('messageErrorUrl'),
     },
   },
   thumbnail: {
     type: String,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Ошибка в ссылке',
+      message: config.get('messageErrorUrl'),
     },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
     ref: 'user',
   },
   movieId: {
     type: Number,
     unique: true,
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   nameRU: {
     type: String,
     minlength: 2,
     validate: {
       validator: (v) => regRu.test(v),
-      message: 'Ошибка в название фильма',
+      message: config.get('messageRU'),
     },
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
   nameEN: {
     type: String,
     minlength: 2,
     validate: {
       validator: (v) => regEn.test(v),
-      message: 'Ошибка в название фильма',
+      message: config.get('messageEN'),
     },
-    required: true,
+    required: [true, config.get('messageErrorRequired')],
   },
 });
+
+movieSchema.statics.findMovieById = async function (id, owner, next) {
+  try {
+    const movie = await this.findOne({ movieId: id, owner });
+    if (movie) {
+      return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));
+    }
+    return Promise.resolve();
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = mongoose.model('movie', movieSchema);
