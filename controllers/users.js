@@ -17,7 +17,7 @@ module.exports.login = (req, res, next) => {
           expiresIn: '7d',
         },
       );
-      res.send({ token, _id: user._id });
+      res.status(config.get('create')).send({ token, _id: user._id });
     })
     .catch(next);
 };
@@ -61,7 +61,12 @@ module.exports.createUser = (req, res, next) => {
         })
         .catch(next);
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === config.get('conflictCode')) {
+        return next(createError.Conflict('Такой email уже используется ❌'));
+      }
+      return next(err);
+    });
 };
 
 module.exports.updateUser = (req, res, next) => {

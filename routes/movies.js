@@ -11,6 +11,7 @@ const {
   regProfile,
   regEn,
   regRu,
+  regNumber,
 } = require('../utils/reg.ext');
 
 router.get('/movies', getMovies);
@@ -25,12 +26,12 @@ router.post('/movies',
         .required(),
       director: Joi.string().min(2).regex(regProfile)
         .required(),
-      duration: Joi.number().required(),
-      year: Joi.string().length(4).regex(regProfile)
+      duration: Joi.number().integer().required(),
+      year: Joi.string().length(4).regex(regNumber)
         .required(),
       description: Joi.string().min(2).regex(regProfile)
         .required(),
-      movieId: Joi.number().min(1).required(),
+      movieId: Joi.number().min(1).integer().required(),
       image: Joi.string().regex(regHttp).required(),
       trailer: Joi.string().regex(regHttp).required(),
       thumbnail: Joi.string().regex(regHttp).required(),
@@ -39,7 +40,7 @@ router.post('/movies',
 router.delete('/movies/:movieId',
   celebrate({
     params: Joi.object().keys({
-      movieId: Joi.number().min(1).required(),
+      movieId: Joi.number().min(1).integer().required(),
     }),
   }), deleteMovie);
 

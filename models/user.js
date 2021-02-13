@@ -48,6 +48,9 @@ userSchema.statics.findUserByCredentials = async function (email, password, next
   }
 };
 userSchema.statics.findUserByCheck = async function (req, _id, next) {
+  if (!req.body.password && !req.body.email && !req.body.name) {
+    return Promise.reject(createError.NotFound('Нет данных для обновления'));
+  }
   try {
     let data = {};
     const { name, email, password } = await this.findById(_id).select('+password');
