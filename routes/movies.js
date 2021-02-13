@@ -26,7 +26,7 @@ router.post('/movies',
         .required(),
       director: Joi.string().min(2).regex(regProfile)
         .required(),
-      duration: Joi.number().required(),
+      duration: Joi.number().integer().min(1).required(),
       year: Joi.string().length(4).custom((value, helpers) => {
         if (+value >= 1900 && +value <= 2021) {
           return value;
@@ -35,7 +35,7 @@ router.post('/movies',
       }).required(),
       description: Joi.string().min(2).regex(regProfile)
         .required(),
-      movieId: Joi.number().min(1).required(),
+      movieId: Joi.number().integer().min(1).required(),
       image: Joi.string().required().custom((value, helpers) => {
         if (validator.isURL(value)) {
           return value;
@@ -59,7 +59,7 @@ router.post('/movies',
 router.delete('/movies/:movieId',
   celebrate({
     params: Joi.object().keys({
-      movieId: Joi.number().min(1).integer().required(),
+      movieId: Joi.number().integer().min(1).required(),
     }),
   }), deleteMovie);
 

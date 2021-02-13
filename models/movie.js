@@ -17,11 +17,20 @@ const movieSchema = new mongoose.Schema({
   },
   duration: {
     type: Number,
+    min: 1,
     required: [true, config.get('messageErrorRequired')],
   },
   year: {
-    type: Number,
+    type: String,
     required: [true, config.get('messageErrorRequired')],
+    validate: {
+      validator: (v) => {
+        if (+v >= 1900 && +v <= 2021) {
+          return v;
+        } return false;
+      },
+      message: config.get('messageNotValidNumber'),
+    },
   },
   description: {
     type: String,
@@ -60,6 +69,7 @@ const movieSchema = new mongoose.Schema({
   movieId: {
     type: Number,
     unique: true,
+    min: 1,
     required: [true, config.get('messageErrorRequired')],
   },
   nameRU: {
