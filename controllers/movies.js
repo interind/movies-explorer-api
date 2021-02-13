@@ -39,7 +39,7 @@ module.exports.createMovie = (req, res, next) => {
         thumbnail,
         owner,
       })
-        .then((movie) => res.send(movie))
+        .then((movie) => res.status(config.get('create')).send(movie))
         .catch(next);
     })
     .catch(next);
