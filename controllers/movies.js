@@ -23,24 +23,26 @@ module.exports.createMovie = (req, res, next) => {
     image,
     thumbnail,
   } = req.body;
-  return Movie.findMovieById(movieId, next)
-    .then(() => {
-      Movie.create({
-        nameEN,
-        nameRU,
-        country,
-        director,
-        duration,
-        year,
-        description,
-        movieId,
-        trailer,
-        image,
-        thumbnail,
-        owner,
-      })
-        .then((movie) => res.status(config.get('create')).send(movie))
-        .catch(next);
+  Movie.findMovieById(movieId, next)
+    .then((resolve) => {
+      if (resolve) {
+        Movie.create({
+          nameEN,
+          nameRU,
+          country,
+          director,
+          duration,
+          year,
+          description,
+          movieId,
+          trailer,
+          image,
+          thumbnail,
+          owner,
+        })
+          .then((movie) => res.status(config.get('create')).send(movie))
+          .catch(next);
+      }
     })
     .catch(next);
 };

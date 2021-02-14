@@ -98,7 +98,7 @@ movieSchema.statics.findMovieById = function (id, next) {
       if (movie) {
         return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));
       }
-      return Promise.resolve();
+      return Promise.resolve(true);
     })
     .catch(next);
 };
