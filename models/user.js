@@ -61,14 +61,14 @@ userSchema.statics.findUserByCheck = async function (req, _id, next) {
       data = { ...data, password: await bcrypt.hash(req.body.password, 10) };
     }
     if (!req.body.email) {
-      data.email = await email;
+      data.email = email;
     } else {
-      data.email = await req.body.email;
+      data.email = req.body.email;
     }
     if (!req.body.name) {
-      data.name = await name;
+      data.name = name;
     } else {
-      data.name = await req.body.name;
+      data.name = req.body.name;
     }
     return data;
   } catch (err) {

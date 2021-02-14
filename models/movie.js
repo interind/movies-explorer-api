@@ -68,7 +68,6 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     type: Number,
-    unique: true,
     min: 1,
     required: [true, config.get('messageErrorRequired')],
   },
@@ -92,16 +91,15 @@ const movieSchema = new mongoose.Schema({
   },
 });
 
-movieSchema.statics.findMovieById = async function (id, owner, next) {
-  try {
-    const movie = await this.findOne({ movieId: id, owner });
-    if (movie) {
-      return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));
-    }
-    return Promise.resolve();
-  } catch (err) {
-    return next(err);
-  }
+movieSchema.statics.findMovieById = function (id, owner, next) {
+  return this.findOne({ $and: [{ movieId: id }, { owner }] })
+    .then((movie) => {
+      if (movie) {
+        return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));
+      }
+      return Promise.resolve();
+    })
+    .catch(next);
 };
 
 module.exports = mongoose.model('movie', movieSchema);

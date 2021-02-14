@@ -40,7 +40,12 @@ module.exports.createMovie = (req, res, next) => {
         owner,
       })
         .then((movie) => res.status(config.get('create')).send(movie))
-        .catch(next);
+        .catch((err) => {
+          if (err.code === config.get('conflictCode')) {
+            return next(createError.Conflict(config.get('messageConflictMovie')));
+          }
+          return next(err);
+        });
     })
     .catch(next);
 };
