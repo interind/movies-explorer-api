@@ -46,7 +46,7 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findOne({ movieId: req.params.movieId })
+  Movie.findById(req.params.movieId)
     .then((movie) => {
       if ((!movie)) {
         return Promise.reject(createError.NotFound(config.get('messageNotFound')));
