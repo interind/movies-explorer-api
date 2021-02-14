@@ -23,7 +23,7 @@ module.exports.createMovie = (req, res, next) => {
     image,
     thumbnail,
   } = req.body;
-  return Movie.findMovieById(movieId, owner, next)
+  return Movie.findMovieById(movieId, next)
     .then(() => {
       Movie.create({
         nameEN,
