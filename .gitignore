@@ -1,15 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-*/node_modules
+node_modules
 */.pnp
 */.pnp.js
 
 # testing
 */coverage
-
-# production
-*/build
 
 # misc
 */.DS_Store
@@ -23,28 +20,28 @@
 */yarn-error.log*
 
 
-*/.eslintignore
+.eslintignore
 
-*/.eslintrc.json
+.eslintrc.json
 
 # Logs
 */logs
-*/*.log
+*.log
 */npm-debug.log*
 
 # Optional npm cache directory
-*/.npm
-*/.env
+.npm
+.env
 
 */.eslintignore
 
 
 # Optional REPL history
-*/.DS_Store
-*/.idea
-*/.vscode
+.DS_Store
+.idea
+.vscode
 
-*/*.test.js
-*/__tests__
+*.test.js
+__tests__
 
-*/text.md
+text.md
