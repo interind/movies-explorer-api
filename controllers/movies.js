@@ -23,7 +23,7 @@ module.exports.createMovie = (req, res, next) => {
     image,
     thumbnail,
   } = req.body;
-  Movie.findMovieById(movieId, next)
+  Movie.findMovieById(movieId, owner, next)
     .then((resolve) => {
       if (resolve) {
         Movie.create({
@@ -40,6 +40,7 @@ module.exports.createMovie = (req, res, next) => {
           thumbnail,
           owner,
         })
+          .then((data) => Movie.findById(data._id).select('-owner'))
           .then((movie) => res.status(config.get('create')).send(movie))
           .catch(next);
       }
@@ -48,7 +49,7 @@ module.exports.createMovie = (req, res, next) => {
 };
 
 module.exports.deleteMovie = (req, res, next) => {
-  Movie.findById(req.params.movieId)
+  Movie.findById(req.params.movieId).select('+owner')
     .then((movie) => {
       if ((!movie)) {
         return Promise.reject(createError.NotFound(config.get('messageNotFound')));

@@ -65,7 +65,7 @@ const movieSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: [true, config.get('messageErrorRequired')],
     ref: 'user',
-    unique: true,
+    select: false,
   },
   movieId: {
     type: Number,
@@ -92,8 +92,8 @@ const movieSchema = new mongoose.Schema({
   },
 });
 
-movieSchema.statics.findMovieById = function (id, next) {
-  return this.findOne({ movieId: id })
+movieSchema.statics.findMovieById = function (movieId, owner, next) {
+  return this.findOne({ $and: [{ movieId }, { owner }] })
     .then((movie) => {
       if (movie) {
         return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));

@@ -18,7 +18,6 @@
   "messageUnregistered": "Ошибка регистрации",
   "messageConflictEmail": "Такой email уже используется",
   "messageConflictMovie": "Такой фильм уже есть",
-  "messageConflictMovieUser": "Вы не можете добавить это фильм",
   "messageNotValidNumber": "Такой номер недопустим",
   "messageEN": "Строка должна быть на английском языке",
   "messageRU": "Строка должна быть на русском языке",
