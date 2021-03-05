@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const config = require('config');
 const createError = require('http-errors');
-const { regRu, regEn } = require('../utils/reg.ext.js');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -45,7 +44,7 @@ const movieSchema = new mongoose.Schema({
       message: config.get('messageErrorUrl'),
     },
   },
-  trailer: {
+  trailerLink: {
     type: String,
     required: [true, config.get('messageErrorRequired')],
     validate: {
@@ -67,7 +66,7 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     select: false,
   },
-  movieId: {
+  id: {
     type: Number,
     min: 1,
     required: [true, config.get('messageErrorRequired')],
@@ -75,25 +74,17 @@ const movieSchema = new mongoose.Schema({
   nameRU: {
     type: String,
     minlength: 2,
-    validate: {
-      validator: (v) => regRu.test(v),
-      message: config.get('messageRU'),
-    },
     required: [true, config.get('messageErrorRequired')],
   },
   nameEN: {
     type: String,
     minlength: 2,
-    validate: {
-      validator: (v) => regEn.test(v),
-      message: config.get('messageEN'),
-    },
     required: [true, config.get('messageErrorRequired')],
   },
 });
 
-movieSchema.statics.findMovieById = function (movieId, owner, next) {
-  return this.findOne({ $and: [{ movieId }, { owner }] })
+movieSchema.statics.findMovieById = function (id, owner, next) {
+  return this.findOne({ $and: [{ id }, { owner }] })
     .then((movie) => {
       if (movie) {
         return Promise.reject(createError.Conflict(config.get('messageConflictMovie')));

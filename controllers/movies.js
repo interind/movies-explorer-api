@@ -18,12 +18,12 @@ module.exports.createMovie = (req, res, next) => {
     duration,
     year,
     description,
-    movieId,
-    trailer,
+    id,
+    trailerLink,
     image,
     thumbnail,
   } = req.body;
-  Movie.findMovieById(movieId, owner, next)
+  Movie.findMovieById(id, owner, next)
     .then((resolve) => {
       if (resolve) {
         Movie.create({
@@ -34,8 +34,8 @@ module.exports.createMovie = (req, res, next) => {
           duration,
           year,
           description,
-          movieId,
-          trailer,
+          id,
+          trailerLink,
           image,
           thumbnail,
           owner,
