@@ -8,9 +8,6 @@ const {
   createMovie,
   deleteMovie,
 } = require('../controllers/movies.js');
-const {
-  regProfile,
-} = require('../utils/reg.ext');
 
 router.get('/movies', getMovies);
 router.post('/movies',
@@ -18,8 +15,7 @@ router.post('/movies',
     body: Joi.object().keys({
       nameRU: Joi.string().min(2).required(),
       nameEN: Joi.string().min(2).required(),
-      country: Joi.string().min(2).regex(regProfile)
-        .required(),
+      country: Joi.string().min(2).required(),
       director: Joi.string().min(2).required(),
       duration: Joi.number().integer().min(1).required(),
       year: Joi.string().length(4).custom((value, helpers) => {
@@ -28,8 +24,7 @@ router.post('/movies',
         }
         return helpers.message(config.get('messageNotValidNumber'));
       }).required(),
-      description: Joi.string().min(2).regex(regProfile)
-        .required(),
+      description: Joi.string().min(2).required(),
       id: Joi.number().integer().min(1).required(),
       image: Joi.string().required().custom((value, helpers) => {
         if (validator.isURL(value)) {
