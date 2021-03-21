@@ -1,8 +1,7 @@
 # movies-explorer-api
  Дипломное апи.
 
- Роутеры и модели обработки и хранения данных пользователя и его ссылок.
+ Роутинг с авторизацией по токену.
+ Модели для хранения данных пользователя.
 
- ссылки на АПИ:   api.interind.students.nomoredomains.monster  www.api.interind.students.nomoredomains.monster
-
- сервер 84.252.128.37
+ ссылки на АПИ:   https://api.interind.students.nomoredomains.monster
