@@ -1,5 +1,5 @@
 {
-  "mongodbUrl": "mongodb://localhost:27017/films",
+  "mongodbUrl": "mongodb://localhost:27017/filmsCards",
   "secretKey": "hello diploma from yandex",
   "PORT": 3000,
   "create": 201,
