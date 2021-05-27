@@ -7,6 +7,8 @@ API Для проекта https://github.com/interind/movies-explorer-frontend
 
 Запуск на npm run dev
 
+Вам потребуется установить MongoDB
+
 **Stack:**
 JavaScript,
 Node,
