@@ -1,7 +1,7 @@
 {
   "mongodbUrl": "mongodb://localhost:27017/filmsCards",
   "secretKey": "hello diploma from yandex",
-  "PORT": 3000,
+  "PORT": 5000,
   "create": 201,
   "conflictCode": 11000,
   "default": 500,

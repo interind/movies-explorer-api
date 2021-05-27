@@ -1,9 +1,11 @@
 # movies-explorer-api
- ссылки на API:   https://api.interind.students.nomoredomains.monster
+API Для проекта https://github.com/interind/movies-explorer-frontend
 
 **Описание:**
 Рабочее приложение для backend на сервере.
 Есть авторизация и регистрация пользователя, хранение фото и видео ссылок в базе данных.
+
+Запуск на npm run dev
 
 **Stack:**
 JavaScript,
